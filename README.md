@@ -1,70 +1,97 @@
-# Getting Started with Create React App
+# Kütüphaneler
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- json-server
+json-server --watch db.json --port 4000 belirle ve çalıştır
+- bootstrap
+- axios@^0.27.2 test icin axios bu sürümü kurulmalı
+npm install 'axios@^0.27.2'
+- @testing-library/user-event@14.0
 
-## Available Scripts
+!!! usereventin import elle yazılmalı otomatik import hatalı yapıyor!!!!!
 
-In the project directory, you can run:
+# uniTest 
+- Oluşturulan her dinamik nesnenin test leri kendi klasörünün içerisinde dizinlenmiştir.
 
-### `npm start`
+# Selector - Seçiciler
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Test içerisnde JSX elementlerini çağırmaya yarayan methodlardır
+- screen nesnesi aracılığı ile kullanılır
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+- byrole: elementin rolüne göre o elemnti çağırmak için,
+- bylabelText : inputu bağlı olduğu labele göre çağırır,
+- byplacsholdertext: inputu placeholderına göre çağırır,
+- bytext: herheangi bir elementi yazı içeriğine göre çağırır(içinde ... olan elementi getir.)
+- bydisplayvalue: elementi value değerine göre çağırır,
+- byalttext: resimleri alt niteliğine göre çağırır,
+- bytitle: elementleri title özelliğine göre çağırır,
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- bytestid: elementler data-testid sine göre çağırır. diğerleri ile seçilemezse enson noktada kullanılır
 
-### `npm run build`
+/*
+ ! Seçiciler
+ 1) Method Tipi  | 2) All İfadesi  | 3) Seçici Method
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+ * get > render anında DOM'da olan elementleri almak için kullanılır | elementi bulamazsa test başarısız olur
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+ * query > elementin ekranda olma durumu keisn değilse kullanılır get ile benzer çalışır | elementi bulamazsa null döndürür test devam eder
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+ * find > elemetin ekrana basılamasının asenkron olduğu durumlarda kullanılır. (api isteği sonnucu ekrana basılıcaksa)
+ * not: find methodu promise döndürdüğü için async await ile kullanılmalı
 
-### `npm run eject`
+ * eğer seçici methoda all ifadesi eklersek seçici koşula uyan bütün elemanları getirir.
+ * not: all kullanırsa dönen cevapta 1 eleman olsa dahi dizi döner
+*/
+# HTML Element Rolleri
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- her html elementinin kendini temsil eden bir rolü vardır. Bu rol ismi bazen etiket ismi ile aynı (button 'ın rolü button) bazen de farklı(h1 'in rolü heading) olabilir.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles  dökümantasyona sitesinden bakılabilir
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+# Matchers - Kontrolcüler
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- expect komutu ile birlikte kullanılan ve bir element veya değişken üzerindeki beklenetimizi kontrol edene methodlardır.
+- örn: (rengi kırmızıdır | checkbox tiklidir | buton aktiftir | yazı içeriği şudur | dizinin uzunluğu 5 tir)
 
-## Learn More
+- Değişkenler için kullanılan matcher'lar:
+- - https://jestjs.io/docs/using-matchers
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- HTML elementi için kullanılan matcher'lar:
+- - https://github.com/testing-library/jest-dom
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# Test Geliştirme Süreci
 
-### Code Splitting
+## TDD (Test Driven Development)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Önce testler yazılır sonra işlevler/bileşenler kodlanır
+- red to green
+- Artısı, testler bir yük olarka gelmez.Test yazmak, geliştirme sürecinin bir parçası oluyor. Testleri yazarken dinamik yapının bir algoritmasını oluşturduğumuz için işlevi daha hızlı kodlayabiliyoruz
 
-### Analyzing the Bundle Size
+## BDD (Behaviour Driven Development)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- Önce işlev/bileşen kodlanır sonra testleri yazılır.
 
-### Making a Progressive Web App
+# FireEvent
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- rtl içerisinde gelen olay tetiklemek için kullandığımız method.
+- gerçek kullanıcıdan uzak tepkiler verdiği için yerini UserEvent'e bıraktı.
+- Tetiklenen olaylar gerçek bir insanın tepkisinden çok daha hızlı bir şekilde aniden gerçekleştiği için testlerde tutarsızlıklara ve beklenmedik sonuçlara sebep olabiliyor
 
-### Advanced Configuration
+# UserEvent
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- fireEvent'in modern / gelişmiş versiyonu
+- tetiklediğimiz olaylar fireEvent gibi doğrudab tetiklenmesis yeribe gerçek bir kullanıcıyı simüle ederek belirli bir gecikmenin ardından tetiklenir
+- kullanılması için userEvent kütüphanesi kurulmalıdır
+- async çalıştığı için async await ile kullanılır
 
-### Deployment
+# Mock
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- Unit testlerde "mock" kullanımı, bir fonksiyonun veya nesnenin belirli bir kısmını izole ederek test etmeye yarar. Özellikle dış bağımlılıkları olan fonksiyonları test etmek için kullanılır. Bu sayede gerçek sistem bileşenlerine bağımlı olmadan sadece test edilmek istene kodun doğru çalışıp çalışmadığı kontrol edilir.
 
-### `npm run build` fails to minify
+- Dışa Bapımlılıkları izole ederiz
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Fonksiyonlar çağrıldı mı kontrolü ypamamızı sağlar
+
+- Fonksiyonlara gönderilen parametreleri kontrol edebilir
+
+# Unittest_Dondurma
